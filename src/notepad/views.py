@@ -7,11 +7,14 @@ from .models import Note
 
 #CRUD
 def create_view(request):
-    form =NoteModelForm(request.POST or None,request.FILES or None)
-    if form.is_valid():
-        form.instance.user=request.user
-        form.save()
-        return redirect('/')
+    if request.method=='POST':
+        form =NoteModelForm(request.POST or None,request.FILES or None)
+        if form.is_valid():
+            form.instance.user=request.user
+            form.save()
+            return redirect('/notes/create')
+    else:
+        form=NoteModelForm()
     context={
         'form':form
     }
@@ -30,4 +33,4 @@ def delete_view(request,id):
     if item_to_delete.exists():
         if request.user==item_to_delete[0].user:
             item_to_delete[0].delete()
-    return redirect('/notes/list/')
+    return redirect('/notepad/list/')

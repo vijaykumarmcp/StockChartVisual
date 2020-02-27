@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf.urls import url
+from charts.views import company_article_view,ChartData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('notes/',include('notepad.urls')),
+    url(r'^charts',company_article_view,name='charts'),
+    url(r'^api/chart/data/$',ChartData.as_view(),name='api-chart-data')
 ]
